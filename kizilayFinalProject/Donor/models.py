@@ -24,13 +24,10 @@ class Donor(models.Model):
     blood_banks = models.ManyToManyField('BloodBank.BloodBank', related_name='donors')
 
     def donate_to_bank(self, bank, quantity):
-        # Check if this donor already donated to this bank
         if self.blood_banks.filter(id=bank.id).exists():
-            # If yes, update the blood quantity in the bank
             bank.quantity += quantity
             bank.save()
         else:
-            # If no, add this bank to the donor's blood banks and update the quantity
             self.blood_banks.add(bank)
             bank.quantity += quantity
             bank.save()   
